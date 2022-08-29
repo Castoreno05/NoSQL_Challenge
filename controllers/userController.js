@@ -32,5 +32,28 @@ function updateUser(req, res) {
     .catch((err) => res.status(500).json(err));
 }
 
+// GET a single user
+function getOneUser(req, res) {
+  User.findOne(
+    { _id: req.params.user_id } 
+  )
+  .then((user) => {
+    if(!user) {
+      return res.status(404).json({ message: 'No user with this id'})
+    }
+    res.json(user)
+  })
+  .catch((err) => res.status(500).json(err));
+}
+
+// DELETE a user 
+function deleteUser(req,res) {
+  User.findOneAndDelete(
+    { _id: req.params.user_id }
+  )
+  .then((user) => res.json(user))
+  .catch((err) => res.status(500).json(err));
+}
+
 // Exporting functions out
-module.exports = { createUser, getUsers, updateUser };
+module.exports = { createUser, getUsers, updateUser, getOneUser, deleteUser };
