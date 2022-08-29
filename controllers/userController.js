@@ -55,5 +55,37 @@ function deleteUser(req,res) {
   .catch((err) => res.status(500).json(err));
 }
 
+// POST a friend to a user
+function addFriend(req,res) {
+  User.findOneAndUpdate(
+    { _id: req.params.user_id },
+    { $addToSet: {friends: req.params.friends_id}},
+    { new: true }
+  )
+  .then((user) => {
+    if(!user) {
+      return res.status(404).json({ message: 'No user with this id'})
+    }
+    res.json(user)
+  })
+  .catch((err) => res.status(500).json(err))
+}
+
+// DELETE a friend from a user
+function deleteFriend(req,res) {
+  User.findOneAndUpdate(
+    { _id: req.params.user_id },
+    { $pull: { friends: req.params.friends_id}},
+    { new: true}
+  )
+  .then((user) => {
+    if(!user) {
+      return res.status(404).json({ message: 'No user with this id'})
+    }
+    res.json(user)
+  })
+  .catch((err) => res.status(500).json(err))
+}
+
 // Exporting functions out
-module.exports = { createUser, getUsers, updateUser, getOneUser, deleteUser };
+module.exports = { createUser, getUsers, updateUser, getOneUser, deleteUser, addFriend, deleteFriend };
