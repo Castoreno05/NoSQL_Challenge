@@ -1,7 +1,6 @@
-const Username = require('./Username');
-const Email = require('./Email');
+// Require models to export out using index file.
+const User = require('./User');
 const Thoughts = require('./Thoughts');
-const Friends = require('./Friends');
 
 
-module.exports = { Username, Email, Thoughts, Friends };
+module.exports = { User, Thoughts };
